@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KOUNAF — Ciment & Fer pour Bâtir l'Avenir</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --terracotta: #C1440E;
+      --gold: #D4980A;
+      --sand: #F5EDD6;
+      --dark: #1A1208;
+      --brown: #5C3317;
+      --light: #FDF8EE;
+      --green: #2D6A2D;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(26,18,8,0.96);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 3px;
+    }
+
+    .nav-logo span { color: var(--terracotta); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--sand);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--terracotta);
+      color: white !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 4px;
+      transition: background 0.3s !important;
+    }
+
+    .nav-cta:hover { background: var(--gold) !important; color: var(--dark) !important; }
+
+    /* ========== HERO SLIDESHOW ========== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Slideshow background images */
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .hero-slide.active { opacity: 1; }
+
+    /* ====================================================
+       🖼️ IMAGES DU SLIDESHOW — Remplacez les URLs ici
+       Pour utiliser vos propres images, remplacez chaque
+       url('...') par l'URL de votre image ou son chemin local
+       ex: url('images/photo1.jpg')
+    ==================================================== */
+    .hero-slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=80'); /* IMAGE 1 */ }
+    .hero-slide:nth-child(2) { background-image: url('img/narc5.jpeg'); /* IMAGE 2 */ }
+    .hero-slide:nth-child(3) { background-image: url('img/NARCS2.jpeg'); /* IMAGE 3 */ }
+    .hero-slide:nth-child(4) { background-image: url('img/NARCS.jpeg'); /* IMAGE 4 */ }
+    .hero-slide:nth-child(5) { background-image: url('img/FER.webp'); /* IMAGE 5 */ }
+
+    /* Dark overlay over all slides */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,18,8,0.88) 0%, rgba(92,51,23,0.72) 50%, rgba(193,68,14,0.55) 100%);
+      z-index: 1;
+    }
+
+    /* Pattern overlay */
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background-image: 
+        repeating-linear-gradient(45deg, rgba(212,152,10,0.04) 0px, rgba(212,152,10,0.04) 2px, transparent 2px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(212,152,10,0.04) 0px, rgba(212,152,10,0.04) 2px, transparent 2px, transparent 20px);
+      pointer-events: none;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to top, var(--light), transparent);
+      z-index: 3;
+    }
+
+    /* Slide dots indicator */
+    .slide-dots {
+      position: absolute;
+      bottom: 12%;
+      left: 5%;
+      display: flex;
+      gap: 10px;
+      z-index: 5;
+    }
+
+    .slide-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s;
+      padding: 0;
+    }
+
+    .slide-dot.active {
+      width: 28px;
+      border-radius: 4px;
+      background: var(--gold);
+    }
+
+    .hero-content {
+      max-width: 700px;
+      position: relative;
+      z-index: 4;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: rgba(245,237,214,0.85);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.5s ease both;
+    }
+
+    .btn-primary {
+      background: var(--terracotta);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold);
+      color: var(--dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212,152,10,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--sand);
+      padding: 1rem 2rem;
+      border: 2px solid rgba(245,237,214,0.5);
+      border-radius: 4px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 8%;
+      right: 5%;
+      display: flex;
+      gap: 2rem;
+      z-index: 5;
+      animation: fadeUp 0.9s 0.7s ease both;
+    }
+
+    .stat {
+      text-align: center;
+      color: white;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ========== SECTION STYLES ========== */
+    section { padding: 6rem 5%; }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--terracotta);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    .section-title em {
+      font-style: normal;
+      color: var(--terracotta);
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: #5a4a35;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* ========== ABOUT ========== */
+    #about {
+      background: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image img {
+      width: 99%;
+      height: 750px;
+      object-fit: cover;
+      border-radius: 20px;
+      display: block;
+    }
+
+    .about-badge-img {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--gold);
+      color: var(--dark);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      border: 4px solid white;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    .about-badge-img .big { font-size: 1.8rem; line-height: 1; }
+    .about-badge-img .small { font-size: 0.65rem; letter-spacing: 1px; text-align: center; }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 1rem;
+      background: var(--light);
+      border-radius: 8px;
+      border-left: 3px solid var(--terracotta);
+    }
+
+    .feature-icon { font-size: 1.5rem; }
+
+    .feature-text strong { display: block; font-size: 0.9rem; color: var(--dark); }
+    .feature-text span { font-size: 0.8rem; color: #7a6a55; }
+
+    /* ========== CATALOGUE ========== */
+    #catalogue { background: var(--light); }
+
+    .catalogue-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .catalogue-header .section-sub { margin: 0 auto; }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 0.6rem 1.5rem;
+      border: 2px solid var(--brown);
+      background: transparent;
+      color: var(--brown);
+      border-radius: 30px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: white;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(193,68,14,0.15);
+    }
+
+    .product-card.hidden { display: none; }
+
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-img-placeholder {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .product-info { padding: 1.2rem; }
+
+    .product-category {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 0.4rem;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-desc {
+      font-size: 0.85rem;
+      color: #7a6a55;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .product-price span {
+      font-size: 0.75rem;
+      font-family: 'Nunito', sans-serif;
+      color: #999;
+      font-weight: 600;
+    }
+
+    .add-cart-btn {
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    /* ========== PANIER FLOTTANT ========== */
+    #cart-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(193,68,14,0.4);
+      z-index: 999;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #cart-btn:hover { background: var(--gold); color: var(--dark); transform: scale(1.1); }
+
+    .cart-count {
+      position: absolute;
+      top: -6px; right: -6px;
+      background: var(--gold);
+      color: var(--dark);
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+
+    /* Cart Sidebar */
+    #cart-sidebar {
+      position: fixed;
+      top: 0; right: -420px;
+      width: 400px;
+      max-width: 95vw;
+      height: 100vh;
+      background: white;
+      z-index: 1100;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+      transition: right 0.4s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #cart-sidebar.open { right: 0; }
+
+    #cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1050;
+      display: none;
+    }
+
+    #cart-overlay.open { display: block; }
+
+    .cart-header {
+      background: var(--dark);
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cart-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+    }
+
+    .cart-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #f0e8dc;
+    }
+
+    .cart-item-icon { font-size: 2rem; }
+
+    .cart-item-info { flex: 1; }
+
+    .cart-item-name { font-weight: 700; font-size: 0.95rem; }
+
+    .cart-item-price { color: var(--green); font-weight: 700; }
+
+    .cart-qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qty-btn {
+      background: var(--light);
+      border: 1px solid #ddd;
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .qty-btn:hover { background: var(--terracotta); color: white; border-color: var(--terracotta); }
+
+    .cart-empty {
+      text-align: center;
+      padding: 3rem;
+      color: #aaa;
+    }
+
+    .cart-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    .cart-footer {
+      padding: 1.5rem;
+      border-top: 2px solid var(--light);
+      background: var(--light);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    .cart-total span:last-child { color: var(--green); font-family: 'Playfair Display', serif; }
+
+    .whatsapp-order-btn {
+      width: 100%;
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      transition: all 0.3s;
+      margin-bottom: 0.7rem;
+    }
+
+    .whatsapp-order-btn:hover {
+      background: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    .quote-btn {
+      width: 100%;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .quote-btn:hover { background: var(--brown); }
+
+    /* ========== POURQUOI NOUS ========== */
+    #why {
+      background: var(--dark);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #why::before {
+      content: 'KOUNAF';
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 20rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.03);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .why-left .section-title { color: white; }
+    .why-left .section-title em { color: var(--gold); }
+    .why-left .section-sub { color: rgba(245,237,214,0.7); }
+
+    .why-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .why-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(212,152,10,0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .why-card:hover {
+      background: rgba(212,152,10,0.1);
+      border-color: var(--gold);
+    }
+
+    .why-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+
+    .why-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .why-card p { font-size: 0.82rem; color: rgba(245,237,214,0.65); line-height: 1.5; }
+
+    /* ========== TEMOIGNAGES ========== */
+    #testimonials { background: var(--sand); }
+
+    .testimonials-header { text-align: center; margin-bottom: 3rem; }
+    .testimonials-header .section-sub { margin: 0 auto; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--gold);
+      opacity: 0.3;
+      position: absolute;
+      top: 0.5rem;
+      left: 1.5rem;
+      line-height: 1;
+    }
+
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1rem; }
+
+    .testimonial-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #5a4a35;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: var(--light);
+    }
+
+    .author-name { font-weight: 700; font-size: 0.95rem; }
+    .author-title { font-size: 0.78rem; color: #999; }
+
+    /* ========== CONTACT ========== */
+    #contact { background: white; }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .contact-icon {
+      width: 48px; height: 48px;
+      background: var(--light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      border: 2px solid var(--sand);
+    }
+
+    .contact-text strong { display: block; font-size: 0.85rem; color: var(--terracotta); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .contact-text span { font-size: 0.95rem; color: var(--dark); }
+
+    .whatsapp-big-btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 2rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(37,211,102,0.3);
+    }
+
+    .whatsapp-big-btn:hover {
+      background: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    .contact-form {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+
+    .contact-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--brown);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 2px solid #e8dcc8;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      background: white;
+      color: var(--dark);
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--terracotta); }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover { background: var(--brown); transform: translateY(-2px); }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--dark);
+      color: rgba(245,237,214,0.7);
+      padding: 3rem 5% 2rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand .nav-logo {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .footer-desc { font-size: 0.9rem; line-height: 1.7; max-width: 280px; }
+
+    .footer-col h4 {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col ul li { margin-bottom: 0.6rem; }
+
+    .footer-col ul a {
+      color: rgba(245,237,214,0.6);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-col ul a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    /* ========== WHATSAPP FIXED ========== */
+    .wa-float {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      background: #25D366;
+      color: white;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      z-index: 998;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+      transition: all 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 6px 30px rgba(37,211,102,0.7); }
+    }
+
+    .wa-float:hover { transform: scale(1.15); }
+
+    /* ========== ZONES DE LIVRAISON ========== */
+    #livraison {
+      background: white;
+      overflow: hidden;
+    }
+
+    .livraison-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .livraison-info { }
+
+    .livraison-highlight {
+      background: linear-gradient(135deg, var(--terracotta), var(--brown));
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .livraison-highlight::before {
+      content: '🚚';
+      position: absolute;
+      font-size: 8rem;
+      right: -1rem;
+      top: -1rem;
+      opacity: 0.15;
+    }
+
+    .livraison-highlight h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .livraison-highlight p { font-size: 0.9rem; opacity: 0.85; line-height: 1.6; }
+
+    .livraison-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .livraison-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .livraison-detail-item span:first-child { font-size: 1.2rem; }
+
+    .zones-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .zone-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zone-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--terracotta);
+    }
+
+    .zone-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(193,68,14,0.12);
+    }
+
+    .zone-card.premium { background: linear-gradient(135deg, #fff8ee, #fff3e0); }
+    .zone-card.premium::before { background: var(--gold); }
+
+    .zone-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .zone-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .zone-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .badge-free { background: #d4edda; color: #155724; }
+    .badge-fast { background: #fff3cd; color: #856404; }
+    .badge-standard { background: #d1ecf1; color: #0c5460; }
+    .badge-premium { background: #f8d7da; color: #721c24; }
+
+    .zone-cities {
+      font-size: 0.82rem;
+      color: #7a6a55;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+    }
+
+    .zone-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .zone-time { color: var(--brown); }
+    .zone-price { color: var(--green); }
+
+    .zones-note {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1.2rem 2rem;
+      background: var(--light);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #7a6a55;
+      border: 1px dashed var(--gold);
+    }
+
+    .zones-note strong { color: var(--terracotta); }
+
+    /* ========== HAMBURGER MENU ========== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 1200;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0; bottom: 0;
+      background: rgba(26,18,8,0.98);
+      z-index: 1100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      color: var(--sand);
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.8rem 2rem;
+      border-bottom: 1px solid rgba(212,152,10,0.2);
+      width: 100%;
+      text-align: center;
+      transition: color 0.3s;
+    }
+
+    .mobile-nav a:hover { color: var(--gold); }
+
+    .mobile-nav .nav-cta-mobile {
+      background: var(--terracotta);
+      color: white !important;
+      border-radius: 8px;
+      border: none !important;
+      margin-top: 1rem;
+    }
+
+    /* ========== RESPONSIVE TABLETTE (max 1024px) ========== */
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .why-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .livraison-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .hero-stats { display: none; }
+      .about-badge-img { right: 10px; bottom: -15px; }
+      .form-row { grid-template-columns: 1fr 1fr; }
+      #why::before { font-size: 6rem; }
+
+      .about-image img { height: 650px; }
+
+      .section-title { font-size: 2rem; }
+    }
+
+    /* ========== RESPONSIVE MOBILE (max 600px) ========== */
+    @media (max-width: 600px) {
+      section { padding: 3.5rem 5%; }
+
+      .hero-title { font-size: 2.2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .hero-buttons { flex-direction: column; }
+      .hero-buttons a { text-align: center; justify-content: center; }
+
+      #about {
+        padding: 3.5rem 5%;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-image img { height: 560px; }
+      .about-badge-img { width: 90px; height: 90px; }
+      .about-badge-img .big { font-size: 1.4rem; }
+      .about-features { grid-template-columns: 1fr; gap: 0.8rem; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .why-cards { grid-template-columns: 1fr; }
+
+      .zones-grid { grid-template-columns: 1fr; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .section-title { font-size: 1.7rem; }
+
+      .hero-badge { font-size: 0.65rem; }
+
+      .filter-tabs { gap: 0.5rem; }
+      .filter-tab { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+      .products-grid { grid-template-columns: 1fr; }
+
+      #cart-sidebar { width: 100%; right: -100vw; }
+      #cart-sidebar.open { right: 0; }
+
+      .testimonials-grid { grid-template-columns: 1fr; }
+
+      .why-inner { gap: 2rem; }
+      .why-cards { grid-template-columns: 1fr 1fr; }
+
+      #hero { padding-top: 70px; }
+
+      nav { padding: 0 4%; }
+
+      .contact-form { padding: 1.5rem; }
+
+      .livraison-highlight { padding: 1.5rem; }
+
+      footer { padding: 2.5rem 5% 1.5rem; }
+    }
+
+    /* ========== Scroll reveal ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-logo">SN AIS<span>SIKI</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#catalogue">Produits</a></li>
+    <li><a href="#livraison">Livraison</a></li>
+    <li><a href="#why">Pourquoi nous</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Demander un devis</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu Drawer -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#about" onclick="closeMenu()">À propos</a>
+  <a href="#catalogue" onclick="closeMenu()">Produits</a>
+  <a href="#livraison" onclick="closeMenu()">Livraison</a>
+  <a href="#why" onclick="closeMenu()">Pourquoi nous</a>
+  <a href="#testimonials" onclick="closeMenu()">Témoignages</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" class="nav-cta-mobile" onclick="closeMenu()">📋Demander un devis</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <!-- Slideshow Background -->
+  <div class="hero-slides">
+    <div class="hero-slide active"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-pattern"></div>
+
+  <!-- Dots -->
+  <div class="slide-dots">
+    <button class="slide-dot active" onclick="goToSlide(0)"></button>
+    <button class="slide-dot" onclick="goToSlide(1)"></button>
+    <button class="slide-dot" onclick="goToSlide(2)"></button>
+    <button class="slide-dot" onclick="goToSlide(3)"></button>
+    <button class="slide-dot" onclick="goToSlide(4)"></button>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🏗️ Matériaux de Construction</div>
+    <h1 class="hero-title">
+      Bâtissez vos rêves avec<br/><em>  SN ASSIKI </em>
+    </h1>
+    <p class="hero-subtitle">
+      Ciment de qualité, fer à béton résistant — nous fournissons les matériaux qu'il faut pour des constructions solides et durables. Livraison rapide, prix imbattables.
+    </p>
+    <div class="hero-buttons">
+      <a href="#catalogue" class="btn-primary">🛒 Voir nos produits</a>
+      <a href="https://wa.me/0166469694?text=Bonjour%20KOUNAF%2C%20je%20voudrais%20des%20informations%20sur%20vos%20produits." class="btn-outline" target="_blank">💬 Commander via WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">200+</span>
+      <span class="stat-label">Clients satisfaits</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">50+</span>
+      <span class="stat-label">Produits dispo</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">24h</span>
+      <span class="stat-label">Livraison rapide</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="about-image reveal">
+    <img src="img/ENR2.jpeg" alt="Entrepreneur KOUNAF"/>
+    <div class="about-badge-img">
+      <span class="big">5+</span>
+      <span class="small">Ans<br/>d'expérience</span>
+    </div>
+  </div>
+  <div class="reveal">
+    <span class="section-tag">Notre histoire</span>
+    <h2 class="section-title">Une passion pour la<br/><em>construction solide</em></h2>
+    <p class="section-sub">
+      KOUNAF, c'est l'histoire d'un jeune entrepreneur déterminé à rendre accessibles des matériaux de construction de qualité. Nous croyons que chaque famille mérite une maison solide, bâtie avec de bons matériaux.
+    </p>
+    <div class="about-features">
+      <div class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div class="feature-text">
+          <strong>Qualité certifiée</strong>
+          <span>Produits sélectionnés avec soin</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🚚</div>
+        <div class="feature-text">
+          <strong>Livraison rapide</strong>
+          <span>Partout dans la région</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💰</div>
+        <div class="feature-text">
+          <strong>Prix compétitifs</strong>
+          <span>Meilleur rapport qualité/prix</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-text">
+          <strong>Service personnalisé</strong>
+          <span>On vous accompagne</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATALOGUE ===== -->
+<section id="catalogue">
+  <div class="catalogue-header reveal">
+    <span class="section-tag">Notre boutique</span>
+    <h2 class="section-title">Nos <em>Produits</em></h2>
+    <p class="section-sub">Sélectionnez vos produits et passez commande directement via WhatsApp. Livraison disponible.</p>
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterProducts('tous')">Tous</button>
+    <button class="filter-tab" onclick="filterProducts('ciment')">🏗️ Ciment</button>
+    <button class="filter-tab" onclick="filterProducts('fer')">🔩 Fer à béton</button>
+    <button class="filter-tab" onclick="filterProducts('accessoires')">🔧 Accessoires</button>
+  </div>
+  <div class="products-grid" id="products-grid">
+
+    <!-- CIMENT -->
+    <div class="product-card" data-category="ciment">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#e8d5b0,#c4a97a)">🏗️</div>
+      <div class="product-info">
+        <div class="product-category">Ciment</div>
+        <div class="product-name">Ciment Portland CEM I</div>
+        <div class="product-desc">Sac de 50kg. Idéal pour dalles, fondations et béton armé.</div>
+        <div class="product-footer">
+          <div class="product-price">5 500 F<span> / sac</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Ciment Portland CEM I', 5500)">
+            🛒 Ajouter
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="ciment">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#d4c4a0,#b09070)">🏗️</div>
+      <div class="product-info">
+        <div class="product-category">Ciment</div>
+        <div class="product-name">Ciment CEM II / 42.5</div>
+        <div class="product-desc">Sac de 50kg. Ciment de haute résistance pour ouvrages importants.</div>
+        <div class="product-footer">
+          <div class="product-price">6 200 F<span> / sac</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Ciment CEM II 42.5', 6200)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="ciment">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#c8b890,#a08060)">🏗️</div>
+      <div class="product-info">
+        <div class="product-category">Ciment</div>
+        <div class="product-name">Ciment Blanc</div>
+        <div class="product-desc">Sac de 25kg. Pour travaux décoratifs, joints et finitions.</div>
+        <div class="product-footer">
+          <div class="product-price">7 800 F<span> / sac</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Ciment Blanc 25kg', 7800)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FER -->
+    <div class="product-card" data-category="fer">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#708090,#4a5568)">🔩</div>
+      <div class="product-info">
+        <div class="product-category">Fer à béton</div>
+        <div class="product-name">Fer HA 10 mm</div>
+        <div class="product-desc">Barre de 12m. Acier haute adhérence, usage courant en construction.</div>
+        <div class="product-footer">
+          <div class="product-price">3 200 F<span> / barre</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Fer HA 10mm', 3200)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="fer">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#607080,#3a4555)">🔩</div>
+      <div class="product-info">
+        <div class="product-category">Fer à béton</div>
+        <div class="product-name">Fer HA 12 mm</div>
+        <div class="product-desc">Barre de 12m. Résistance renforcée pour structures porteuses.</div>
+        <div class="product-footer">
+          <div class="product-price">4 500 F<span> / barre</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Fer HA 12mm', 4500)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="fer">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#506070,#2a3545)">🔩</div>
+      <div class="product-info">
+        <div class="product-category">Fer à béton</div>
+        <div class="product-name">Fer HA 16 mm</div>
+        <div class="product-desc">Barre de 12m. Pour grandes structures et immeubles.</div>
+        <div class="product-footer">
+          <div class="product-price">7 500 F<span> / barre</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Fer HA 16mm', 7500)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESSOIRES -->
+    <div class="product-card" data-category="accessoires">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#b8906a,#8b6040)">🔧</div>
+      <div class="product-info">
+        <div class="product-category">Accessoires</div>
+        <div class="product-name">Treillis soudé 2x3m</div>
+        <div class="product-desc">Maille 15x15cm. Pour dalles et planchers.</div>
+        <div class="product-footer">
+          <div class="product-price">12 000 F<span> / panneau</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Treillis soudé 2x3m', 12000)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="accessoires">
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg,#c0a070,#907040)">🔧</div>
+      <div class="product-info">
+        <div class="product-category">Accessoires</div>
+        <div class="product-name">Fil de ligature</div>
+        <div class="product-desc">Rouleau de 5kg. Acier recuit pour ligature du ferraillage.</div>
+        <div class="product-footer">
+          <div class="product-price">2 500 F<span> / rouleau</span></div>
+          <button class="add-cart-btn" onclick="addToCart('Fil de ligature 5kg', 2500)">🛒 Ajouter</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== POURQUOI KOUNAF ===== -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-left reveal">
+      <span class="section-tag">Nos atouts</span>
+      <h2 class="section-title">Pourquoi choisir<br/><em>KOUNAF</em> ?</h2>
+      <p class="section-sub">
+        Nous mettons tout en œuvre pour que votre chantier se déroule sans accrocs. Qualité, rapidité et honnêteté sont nos valeurs fondatrices.
+      </p>
+    </div>
+    <div class="why-cards reveal">
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <h4>Qualité garantie</h4>
+        <p>Tous nos produits sont vérifiés et conformes aux normes en vigueur.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💸</div>
+        <h4>Prix honnêtes</h4>
+        <p>Pas de surprise. Nos tarifs sont transparents et compétitifs.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🚚</div>
+        <h4>Livraison rapide</h4>
+        <p>Disponibilité immédiate. Livraison sous 24h dans la zone.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📞</div>
+        <h4>Support WhatsApp</h4>
+        <p>Réponse rapide 7j/7. On répond à toutes vos questions.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📦</div>
+        <h4>Stock disponible</h4>
+        <p>Grandes quantités disponibles, même pour gros chantiers.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <h4>Confiance locale</h4>
+        <p>Des centaines de clients satisfaits dans la région.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TÉMOIGNAGES ===== -->
+<section id="testimonials">
+  <div class="testimonials-header reveal">
+    <span class="section-tag">Témoignages</span>
+    <h2 class="section-title">Ce que disent <em>nos clients</em></h2>
+    <p class="section-sub">Ils ont construit avec KOUNAF. Voici leur expérience.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        J'ai commandé plusieurs tonnes de ciment pour ma villa. Livraison ponctuelle, qualité au top. Je recommande vraiment KOUNAF à tous les promoteurs.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👷</div>
+        <div>
+          <div class="author-name">Mamadou K.</div>
+          <div class="author-title">Entrepreneur BTP</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Prix imbattables et service sérieux. Le fer HA 12mm que j'ai acheté pour mes poteaux est de très bonne qualité. Je suis client fidèle maintenant.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🏗️</div>
+        <div>
+          <div class="author-name">Aminata D.</div>
+          <div class="author-title">Architecte</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        J'ai construit ma maison grâce à KOUNAF. Le propriétaire est disponible, honnête et les matériaux étaient exactement ce qu'il m'avait promis.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🏡</div>
+        <div>
+          <div class="author-name">Ibrahim S.</div>
+          <div class="author-title">Particulier</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ZONES DE LIVRAISON ===== -->
+<section id="livraison">
+  <div class="livraison-inner">
+    <div class="livraison-info reveal">
+      <span class="section-tag">Livraison</span>
+      <h2 class="section-title">Nous livrons<br/>dans votre <em>zone</em></h2>
+      <p class="section-sub">KOUNAF livre vos matériaux directement sur votre chantier. Rapide, fiable et à prix juste.</p>
+
+      <div class="livraison-highlight">
+        <h4>🚚 Livraison à domicile disponible</h4>
+        <p>Commandez via WhatsApp ou par téléphone et nous organisons la livraison selon votre zone géographique.</p>
+        <div class="livraison-details">
+          <div class="livraison-detail-item"><span>✅</span><span>Livraison le jour même possible (commande avant 10h)</span></div>
+          <div class="livraison-detail-item"><span>📦</span><span>Grandes quantités acceptées (camion complet)</span></div>
+          <div class="livraison-detail-item"><span>💬</span><span>Confirmation et suivi via WhatsApp</span></div>
+          <div class="livraison-detail-item"><span>🧾</span><span>Bon de livraison fourni à chaque commande</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="zones-grid">
+        <div class="zone-card">
+          <div class="zone-header">
+            <div class="zone-name">🏙️ Zone Centre</div>
+            <span class="zone-badge badge-free">Prioritaire</span>
+          </div>
+          <div class="zone-cities">Cotonou, Porto-Novo, Lomé, centre-ville et communes limitrophes</div>
+          <div class="zone-info">
+            <span class="zone-time">⏱ Livraison : 2–6h</span>
+            <span class="zone-price">Sur devis</span>
+          </div>
+        </div>
+
+        <div class="zone-card premium">
+          <div class="zone-header">
+            <div class="zone-name">🌆 Zone Nord</div>
+            <span class="zone-badge badge-fast">Rapide</span>
+          </div>
+          <div class="zone-cities">Parakou, Natitingou, Kandi, Djougou et environs</div>
+          <div class="zone-info">
+            <span class="zone-time">⏱ Livraison : 24–48h</span>
+            <span class="zone-price">Sur devis</span>
+          </div>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-header">
+            <div class="zone-name">🌳 Zone Sud</div>
+            <span class="zone-badge badge-standard">Standard</span>
+          </div>
+          <div class="zone-cities">Abomey, Bohicon, Lokossa, Ouidah, Grand-Popo</div>
+          <div class="zone-info">
+            <span class="zone-time">⏱ Livraison : 12–24h</span>
+            <span class="zone-price">Sur devis</span>
+          </div>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-header">
+            <div class="zone-name">🌾 Zone Est</div>
+            <span class="zone-badge badge-premium">Planifiée</span>
+          </div>
+          <div class="zone-cities">Pobè, Kétou, Sakété, Ifangni et alentours</div>
+          <div class="zone-info">
+            <span class="zone-time">⏱ Livraison : 24–48h</span>
+            <span class="zone-price">Sur devis</span>
+          </div>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-header">
+            <div class="zone-name">🏞️ Zone Ouest</div>
+            <span class="zone-badge badge-standard">Standard</span>
+          </div>
+          <div class="zone-cities">Savalou, Dassa, Glazoué, Bantè</div>
+          <div class="zone-info">
+            <span class="zone-time">⏱ Livraison : 24–48h</span>
+            <span class="zone-price">Sur devis</span>
+          </div>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-header">
+            <div class="zone-name">🗺️ Autre zone ?</div>
+            <span class="zone-badge badge-fast">Contactez-nous</span>
+          </div>
+          <div class="zone-cities">Vous ne trouvez pas votre zone ? Appelez-nous, on trouvera une solution !</div>
+          <div class="zone-info">
+            <span class="zone-time">📞 01 66 46 96 94</span>
+            <span class="zone-price">Négociable</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="zones-note">
+        💡 <strong>Bon à savoir :</strong> Les frais de livraison varient selon la distance et la quantité commandée. Contactez-nous pour un devis personnalisé.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <span class="section-tag">Nous contacter</span>
+      <h2 class="section-title">Parlons de votre <em>projet</em></h2>
+      <p class="section-sub">Un chantier à lancer ? Besoin d'un devis ? On vous répond rapidement.</p>
+      <div class="contact-info-block">
+        <div class="contact-info-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-text">
+            <strong>Téléphone</strong>
+            <span>01 66 46 96 94</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-text">
+            <strong>Disponibilité</strong>
+            <span>Lun–Sam : 7h00 – 18h00</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-text">
+            <strong>Localisation</strong>
+            <span>Zone commerciale, à préciser</span>
+          </div>
+        </div>
+      </div>
+      <a href="https://wa.me/0166469694?text=Bonjour%20KOUNAF%2C%20je%20souhaite%20un%20devis%20pour%20mon%20projet." class="whatsapp-big-btn" target="_blank">
+        💬 Commander sur WhatsApp
+      </a>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3>Demander un devis gratuit</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom & Nom</label>
+          <input type="text" placeholder="Ex: Kofi Mensah"/>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" placeholder="+229 ..."/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Type de projet</label>
+        <select>
+          <option>Villa / Maison individuelle</option>
+          <option>Immeuble / Promoteur</option>
+          <option>Chantier public</option>
+          <option>Petits travaux</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Produits souhaités</label>
+        <input type="text" placeholder="Ex: 100 sacs de ciment + 50 barres de fer HA12"/>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Décrivez votre projet, vos besoins, votre délai..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="sendWhatsAppQuote()">📤 Envoyer ma demande via WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo">KOU<span>NAF</span></span>
+      <p class="footer-desc">Votre partenaire de confiance pour les matériaux de construction. Ciment, fer à béton et accessoires disponibles pour tous vos chantiers.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#catalogue">Produits</a></li>
+        <li><a href="#livraison">Zones de livraison</a></li>
+        <li><a href="#why">Pourquoi nous</a></li>
+        <li><a href="#testimonials">Témoignages</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Produits</h4>
+      <ul>
+        <li><a href="#catalogue">Ciment Portland</a></li>
+        <li><a href="#catalogue">Ciment CEM II</a></li>
+        <li><a href="#catalogue">Fer HA 10 / 12 / 16</a></li>
+        <li><a href="#catalogue">Treillis soudé</a></li>
+        <li><a href="#catalogue">Fil de ligature</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 KOUNAF — Tous droits réservés</span>
+    <span>Made with ❤️ for builders</span>
+  </div>
+</footer>
+
+<!-- ===== PANIER FLOTTANT ===== -->
+<button id="cart-btn" onclick="toggleCart()">
+  🛒
+  <div class="cart-count" id="cart-count">0</div>
+</button>
+
+<a class="wa-float" href="https://wa.me/0166469694?text=Bonjour%20KOUNAF%20!" target="_blank" title="Commander via WhatsApp">💬</a>
+
+<!-- ===== SIDEBAR PANIER ===== -->
+<div id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Mon Panier</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <div class="empty-icon">🛒</div>
+      <p>Votre panier est vide.<br/>Ajoutez des produits !</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total">
+      <span>Total estimé</span>
+      <span id="cart-total-price">0 F</span>
+    </div>
+    <button class="whatsapp-order-btn" onclick="orderViaWhatsApp()">
+      💬 Commander via WhatsApp
+    </button>
+    <button class="quote-btn" onclick="orderViaWhatsApp()">
+      📋 Demander un devis
+    </button>
+  </div>
+</div>
+
+<script>
+  // ===== HERO SLIDESHOW =====
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.slide-dot');
+  const totalSlides = slides.length;
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + totalSlides) % totalSlides;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); }
+
+  // Auto advance every 4 seconds
+  setInterval(nextSlide, 4000);
+</script>
+
+<script>
+  // ===== MOBILE MENU =====
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-nav');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+
+  function closeMenu() {
+    document.getElementById('mobile-nav').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close menu on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) closeMenu();
+  });
+
+
+  let cart = [];
+
+  function addToCart(name, price) {
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price, qty: 1 });
+    }
+    updateCartUI();
+    // Visual feedback
+    const cartBtn = document.getElementById('cart-btn');
+    cartBtn.style.transform = 'scale(1.3)';
+    setTimeout(() => cartBtn.style.transform = '', 300);
+  }
+
+  function updateCartUI() {
+    const count = cart.reduce((a, b) => a + b.qty, 0);
+    const countEl = document.getElementById('cart-count');
+    countEl.textContent = count;
+    countEl.style.display = count > 0 ? 'flex' : 'none';
+
+    const itemsEl = document.getElementById('cart-items');
+    const footerEl = document.getElementById('cart-footer');
+
+    if (cart.length === 0) {
+      itemsEl.innerHTML = '<div class="cart-empty"><div class="empty-icon">🛒</div><p>Votre panier est vide.<br/>Ajoutez des produits !</p></div>';
+      footerEl.style.display = 'none';
+      return;
+    }
+
+    footerEl.style.display = 'block';
+    let html = '';
+    let total = 0;
+    cart.forEach((item, idx) => {
+      total += item.price * item.qty;
+      html += `
+        <div class="cart-item">
+          <div class="cart-item-icon">📦</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">${(item.price * item.qty).toLocaleString('fr-FR')} F</div>
+          </div>
+          <div class="cart-qty-controls">
+            <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+          </div>
+        </div>`;
+    });
+
+    itemsEl.innerHTML = html;
+    document.getElementById('cart-total-price').textContent = total.toLocaleString('fr-FR') + ' F';
+  }
+
+  function changeQty(idx, delta) {
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    updateCartUI();
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-sidebar').classList.toggle('open');
+    document.getElementById('cart-overlay').classList.toggle('open');
+  }
+
+  function orderViaWhatsApp() {
+    if (cart.length === 0) return;
+    let msg = 'Bonjour KOUNAF ! Je souhaite commander :%0A%0A';
+    let total = 0;
+    cart.forEach(item => {
+      msg += `• ${item.qty}x ${item.name} — ${(item.price * item.qty).toLocaleString('fr-FR')} F%0A`;
+      total += item.price * item.qty;
+    });
+    msg += `%0A*Total estimé : ${total.toLocaleString('fr-FR')} F*%0A%0AMerci de confirmer la disponibilité et la livraison.`;
+    window.open('https://wa.me/0166469694?text=' + msg, '_blank');
+  }
+
+  function sendWhatsAppQuote() {
+    const inputs = document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea');
+    const nom = inputs[0].value || 'Non précisé';
+    const tel = inputs[1].value || 'Non précisé';
+    const projet = inputs[2].value || 'Non précisé';
+    const produits = inputs[3].value || 'Non précisé';
+    const message = inputs[4].value || '';
+    const msg = `Bonjour KOUNAF ! Demande de devis :%0A%0A👤 Nom : ${nom}%0A📞 Tel : ${tel}%0A🏗️ Projet : ${projet}%0ACommande : ${produits}%0A%0A${message}`;
+    window.open('https://wa.me/0166469694?text=' + msg, '_blank');
+  }
+
+  // ===== FILTER =====
+  function filterProducts(cat) {
+    document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      const show = cat === 'tous' || card.dataset.category === cat;
+      card.classList.toggle('hidden', !show);
+    });
+  }
+
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ===== NAV SCROLL =====
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.height = '58px';
+    } else {
+      nav.style.height = '70px';
+    }
+  });
+</script>
+</body>
+</html>
