@@ -7,1815 +7,8 @@
     <title>SN ASSIKI — Ciment &amp; Fer pour Bâtir l'Avenir</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        :root {
-            --terracotta: #C1440E;
-            --gold: #D4980A;
-            --sand: #F5EDD6;
-            --dark: #1A1208;
-            --brown: #5C3317;
-            --light: #FDF8EE;
-            --green: #2D6A2D;
-            --white: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* ========== NAV ========== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(26, 18, 8, 0.97);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5%;
-            height: 70px;
-            border-bottom: 2px solid var(--gold);
-            transition: height 0.3s;
-        }
-
-        .nav-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--gold);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .nav-logo span {
-            color: var(--terracotta);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--sand);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-
-        .nav-cta {
-            background: var(--terracotta);
-            color: white !important;
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            transition: background 0.3s !important;
-        }
-
-        .nav-cta:hover {
-            background: var(--gold) !important;
-            color: var(--dark) !important;
-        }
-
-        /* ========== HAMBURGER ========== */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 4px;
-            z-index: 1200;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 26px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
-
-        .hamburger.open span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        .hamburger.open span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.open span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(26, 18, 8, 0.99);
-            z-index: 1100;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 2rem;
-        }
-
-        .mobile-nav.open {
-            display: flex;
-        }
-
-        .mobile-nav a {
-            color: var(--sand);
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid rgba(212, 152, 10, 0.2);
-            width: 100%;
-            text-align: center;
-            transition: color 0.3s;
-        }
-
-        .mobile-nav a:hover {
-            color: var(--gold);
-        }
-
-        .mobile-nav .nav-cta-mobile {
-            background: var(--terracotta);
-            color: white !important;
-            border-radius: 8px;
-            border: none !important;
-            margin-top: 1rem;
-            font-size: 1rem !important;
-        }
-
-        /* ========== HERO SLIDESHOW ========== */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-slides {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .hero-slide.active {
-            opacity: 1;
-        }
-
-        /* ==================================================
-       IMAGES DU SLIDESHOW — Remplacez les chemins ici
-       Exemple : url('images/photo1.jpg')
-    ================================================== */
-        .hero-slide:nth-child(1) {
-            background-image: url('img/narc5.jpeg');
-        }
-
-        .hero-slide:nth-child(2) {
-            background-image: url('img/NARCS2.jpeg');
-        }
-
-        .hero-slide:nth-child(3) {
-            background-image: url('img/NARCS.jpeg');
-        }
-
-        .hero-slide:nth-child(4) {
-            background-image: url('img/FER.webp');
-        }
-
-        .hero-slide:nth-child(5) {
-            background-image: url('img/Narc3.jpeg');
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(26, 18, 8, 0.88) 0%, rgba(92, 51, 23, 0.72) 50%, rgba(193, 68, 14, 0.55) 100%);
-            z-index: 1;
-        }
-
-        .hero-pattern {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            background-image:
-                repeating-linear-gradient(45deg, rgba(212, 152, 10, 0.04) 0px, rgba(212, 152, 10, 0.04) 2px, transparent 2px, transparent 20px),
-                repeating-linear-gradient(-45deg, rgba(212, 152, 10, 0.04) 0px, rgba(212, 152, 10, 0.04) 2px, transparent 2px, transparent 20px);
-            pointer-events: none;
-        }
-
-        #hero::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 120px;
-            background: linear-gradient(to top, var(--light), transparent);
-            z-index: 3;
-        }
-
-        .slide-dots {
-            position: absolute;
-            bottom: 12%;
-            left: 5%;
-            display: flex;
-            gap: 10px;
-            z-index: 5;
-        }
-
-        .slide-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            cursor: pointer;
-            transition: all 0.4s;
-            padding: 0;
-        }
-
-        .slide-dot.active {
-            width: 28px;
-            border-radius: 4px;
-            background: var(--gold);
-        }
-
-        .hero-content {
-            max-width: 700px;
-            position: relative;
-            z-index: 4;
-            animation: fadeUp 0.9s ease both;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--dark);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 0.4rem 1rem;
-            border-radius: 2px;
-            margin-bottom: 1.5rem;
-            animation: fadeUp 0.9s 0.2s ease both;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900;
-            color: var(--white);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            animation: fadeUp 0.9s 0.3s ease both;
-        }
-
-        .hero-title em {
-            font-style: normal;
-            color: var(--gold);
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: rgba(245, 237, 214, 0.85);
-            line-height: 1.7;
-            margin-bottom: 2.5rem;
-            animation: fadeUp 0.9s 0.4s ease both;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            animation: fadeUp 0.9s 0.5s ease both;
-        }
-
-        .btn-primary {
-            background: var(--terracotta);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 4px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary:hover {
-            background: var(--gold);
-            color: var(--dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 152, 10, 0.35);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--sand);
-            padding: 1rem 2rem;
-            border: 2px solid rgba(245, 237, 214, 0.5);
-            border-radius: 4px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .hero-stats {
-            position: absolute;
-            bottom: 8%;
-            right: 5%;
-            display: flex;
-            gap: 2rem;
-            z-index: 5;
-            animation: fadeUp 0.9s 0.7s ease both;
-        }
-
-        .stat {
-            text-align: center;
-            color: white;
-        }
-
-        .stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--gold);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* ========== SECTIONS ========== */
-        section {
-            padding: 6rem 5%;
-        }
-
-        .section-tag {
-            display: inline-block;
-            background: var(--terracotta);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 0.35rem 0.9rem;
-            border-radius: 2px;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .section-title em {
-            font-style: normal;
-            color: var(--terracotta);
-        }
-
-        .section-sub {
-            font-size: 1.05rem;
-            color: #5a4a35;
-            line-height: 1.7;
-            max-width: 600px;
-        }
-
-        /* ========== ABOUT ========== */
-        #about {
-            background: white;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-        }
-
-        .about-image img {
-            width: 100%;
-            height: 750px;
-            object-fit: cover;
-            border-radius: 16px;
-            display: block;
-        }
-
-        .about-badge-img {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            background: var(--gold);
-            color: var(--dark);
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            border: 4px solid white;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .about-badge-img .big {
-            font-size: 1.8rem;
-            line-height: 1;
-        }
-
-        .about-badge-img .small {
-            font-size: 0.6rem;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: var(--light);
-            border-radius: 8px;
-            border-left: 3px solid var(--terracotta);
-        }
-
-        .feature-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--terracotta);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .feature-icon svg {
-            width: 16px;
-            height: 16px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2.5;
-        }
-
-        .feature-text strong {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--dark);
-        }
-
-        .feature-text span {
-            font-size: 0.8rem;
-            color: #7a6a55;
-        }
-
-        /* ========== CATALOGUE ========== */
-        #catalogue {
-            background: var(--light);
-        }
-
-        .catalogue-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .catalogue-header .section-sub {
-            margin: 0 auto;
-        }
-
-        .filter-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-tab {
-            padding: 0.6rem 1.5rem;
-            border: 2px solid var(--brown);
-            background: transparent;
-            color: var(--brown);
-            border-radius: 30px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-tab.active,
-        .filter-tab:hover {
-            background: var(--terracotta);
-            border-color: var(--terracotta);
-            color: white;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(193, 68, 14, 0.15);
-        }
-
-        .product-card.hidden {
-            display: none;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Placeholder propre sans emoji */
-        .product-img-placeholder {
-            width: 100%;
-            height: 200px;
-            background: #ddd8d0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-img-placeholder::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: repeating-linear-gradient(-45deg, transparent, transparent 8px,
-                    rgba(0, 0, 0, 0.04) 8px, rgba(0, 0, 0, 0.04) 9px);
-        }
-
-        .product-img-placeholder svg {
-            width: 40px;
-            height: 40px;
-            stroke: #888;
-            fill: none;
-            stroke-width: 1.5;
-            opacity: 0.5;
-            position: relative;
-            z-index: 1;
-        }
-
-        .product-img-placeholder .ph-label {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #777;
-            position: relative;
-            z-index: 1;
-        }
-
-        .product-info {
-            padding: 1.2rem;
-        }
-
-        .product-category {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--terracotta);
-            margin-bottom: 0.4rem;
-        }
-
-        .product-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .product-desc {
-            font-size: 0.85rem;
-            color: #7a6a55;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .product-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .product-price {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .product-price span {
-            font-size: 0.75rem;
-            font-family: 'Nunito', sans-serif;
-            color: #999;
-            font-weight: 600;
-        }
-
-        .add-cart-btn {
-            background: var(--terracotta);
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .add-cart-btn:hover {
-            background: var(--gold);
-            color: var(--dark);
-        }
-
-        /* ========== PANIER FLOTTANT ========== */
-        #cart-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--terracotta);
-            color: white;
-            border: none;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(193, 68, 14, 0.4);
-            z-index: 999;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        #cart-btn:hover {
-            background: var(--gold);
-            color: var(--dark);
-            transform: scale(1.1);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: var(--gold);
-            color: var(--dark);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 400px;
-            max-width: 95vw;
-            height: 100vh;
-            background: white;
-            z-index: 1100;
-            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
-            transition: right 0.4s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #cart-sidebar.open {
-            right: 0;
-        }
-
-        #cart-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1050;
-            display: none;
-        }
-
-        #cart-overlay.open {
-            display: block;
-        }
-
-        .cart-header {
-            background: var(--dark);
-            color: white;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .cart-header h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-        }
-
-        .cart-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-bottom: 1px solid #f0e8dc;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .cart-item-price {
-            color: var(--green);
-            font-weight: 700;
-        }
-
-        .cart-qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .qty-btn {
-            background: var(--light);
-            border: 1px solid #ddd;
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .qty-btn:hover {
-            background: var(--terracotta);
-            color: white;
-            border-color: var(--terracotta);
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 3rem;
-            color: #aaa;
-        }
-
-        .cart-empty svg {
-            width: 48px;
-            height: 48px;
-            stroke: #ccc;
-            fill: none;
-            margin-bottom: 1rem;
-        }
-
-        .cart-empty p {
-            font-size: 0.95rem;
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            border-top: 2px solid var(--light);
-            background: var(--light);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .cart-total span:last-child {
-            color: var(--green);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .whatsapp-order-btn {
-            width: 100%;
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-            margin-bottom: 0.7rem;
-        }
-
-        .whatsapp-order-btn:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-        }
-
-        .quote-btn {
-            width: 100%;
-            background: var(--terracotta);
-            color: white;
-            border: none;
-            padding: 0.9rem;
-            border-radius: 8px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .quote-btn:hover {
-            background: var(--brown);
-        }
-
-        /* ========== POURQUOI NOUS ========== */
-        #why {
-            background: var(--dark);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #why::before {
-            content: 'ASSIKI';
-            position: absolute;
-            font-family: 'Playfair Display', serif;
-            font-size: 20rem;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            white-space: nowrap;
-            pointer-events: none;
-        }
-
-        .why-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .why-left .section-title {
-            color: white;
-        }
-
-        .why-left .section-title em {
-            color: var(--gold);
-        }
-
-        .why-left .section-sub {
-            color: rgba(245, 237, 214, 0.7);
-        }
-
-        .why-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .why-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 152, 10, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .why-card:hover {
-            background: rgba(212, 152, 10, 0.1);
-            border-color: var(--gold);
-        }
-
-        .why-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 0.8rem;
-            background: rgba(212, 152, 10, 0.15);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .why-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--gold);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .why-card h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            color: var(--gold);
-            margin-bottom: 0.4rem;
-        }
-
-        .why-card p {
-            font-size: 0.82rem;
-            color: rgba(245, 237, 214, 0.65);
-            line-height: 1.5;
-        }
-
-        /* ========== TEMOIGNAGES ========== */
-        #testimonials {
-            background: var(--sand);
-        }
-
-        .testimonials-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .testimonials-header .section-sub {
-            margin: 0 auto;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .testimonial-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            color: var(--gold);
-            opacity: 0.3;
-            position: absolute;
-            top: 0.5rem;
-            left: 1.5rem;
-            line-height: 1;
-        }
-
-        .stars {
-            color: var(--gold);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .testimonial-text {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: #5a4a35;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--terracotta);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .author-avatar svg {
-            width: 22px;
-            height: 22px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .author-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .author-title {
-            font-size: 0.78rem;
-            color: #999;
-        }
-
-        /* ========== ZONES DE LIVRAISON ========== */
-        #livraison {
-            background: white;
-            overflow: hidden;
-        }
-
-        .livraison-inner {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: 5rem;
-            align-items: start;
-        }
-
-        .livraison-highlight {
-            background: linear-gradient(135deg, var(--terracotta), var(--brown));
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-top: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .livraison-highlight::after {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: -20px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .livraison-highlight h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .livraison-highlight p {
-            font-size: 0.9rem;
-            opacity: 0.85;
-            line-height: 1.6;
-        }
-
-        .livraison-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-
-        .livraison-detail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.9rem;
-        }
-
-        .livraison-detail-item .detail-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .livraison-detail-item .detail-icon svg {
-            width: 12px;
-            height: 12px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2.5;
-        }
-
-        .zones-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .zone-card {
-            background: var(--light);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .zone-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--terracotta);
-        }
-
-        .zone-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(193, 68, 14, 0.12);
-        }
-
-        .zone-card.premium {
-            background: linear-gradient(135deg, #fff8ee, #fff3e0);
-        }
-
-        .zone-card.premium::before {
-            background: var(--gold);
-        }
-
-        .zone-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-        }
-
-        .zone-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .zone-badge {
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
-        }
-
-        .badge-free {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge-fast {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .badge-standard {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .badge-premium {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .zone-cities {
-            font-size: 0.82rem;
-            color: #7a6a55;
-            line-height: 1.6;
-            margin-bottom: 0.8rem;
-        }
-
-        .zone-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.82rem;
-            font-weight: 700;
-        }
-
-        .zone-time {
-            color: var(--brown);
-        }
-
-        .zone-price {
-            color: var(--green);
-        }
-
-        .zones-note {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1.2rem 2rem;
-            background: var(--light);
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: #7a6a55;
-            border: 1px dashed var(--gold);
-        }
-
-        .zones-note strong {
-            color: var(--terracotta);
-        }
-
-        /* ========== CONTACT ========== */
-        #contact {
-            background: white;
-        }
-
-        .contact-inner {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 5rem;
-            align-items: start;
-        }
-
-        .contact-info-block {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .contact-info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .contact-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 2px solid var(--sand);
-        }
-
-        .contact-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--terracotta);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .contact-text strong {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--terracotta);
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .contact-text span {
-            font-size: 0.95rem;
-            color: var(--dark);
-        }
-
-        .whatsapp-big-btn {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            padding: 1.2rem 2rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            margin-top: 2rem;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
-        }
-
-        .whatsapp-big-btn svg {
-            width: 22px;
-            height: 22px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2;
-            flex-shrink: 0;
-        }
-
-        .whatsapp-big-btn:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-        }
-
-        .contact-form {
-            background: var(--light);
-            border-radius: 16px;
-            padding: 2.5rem;
-        }
-
-        .contact-form h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--brown);
-            margin-bottom: 0.4rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            border: 2px solid #e8dcc8;
-            border-radius: 8px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.95rem;
-            background: white;
-            color: var(--dark);
-            transition: border-color 0.3s;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--terracotta);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--terracotta);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: var(--brown);
-            transform: translateY(-2px);
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background: var(--dark);
-            color: rgba(245, 237, 214, 0.7);
-            padding: 3rem 5% 2rem;
-        }
-
-        .footer-inner {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-brand .nav-logo {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        .footer-desc {
-            font-size: 0.9rem;
-            line-height: 1.7;
-            max-width: 280px;
-        }
-
-        .footer-col h4 {
-            color: var(--gold);
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1.2rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 0.6rem;
-        }
-
-        .footer-col ul a {
-            color: rgba(245, 237, 214, 0.6);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        .footer-col ul a:hover {
-            color: var(--gold);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-        }
-
-        /* ========== WA FLOAT ========== */
-        .wa-float {
-            position: fixed;
-            bottom: 110px;
-            right: 30px;
-            background: #25D366;
-            color: white;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            z-index: 998;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
-        }
-
-        .wa-float svg {
-            width: 26px;
-            height: 26px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 6px 30px rgba(37, 211, 102, 0.7);
-            }
-        }
-
-        .wa-float:hover {
-            transform: scale(1.15);
-        }
-
-        /* ========== RESPONSIVE TABLETTE ========== */
-        @media (max-width: 1024px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            #about,
-            .why-inner,
-            .contact-inner,
-            .livraison-inner {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .footer-inner {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-
-            .hero-stats {
-                display: none;
-            }
-
-            .about-badge-img {
-                right: 10px;
-                bottom: -15px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            #why::before {
-                font-size: 6rem;
-            }
-
-            .about-image img {
-                height: 780px;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-
-        /* ========== RESPONSIVE MOBILE ========== */
-        @media (max-width: 600px) {
-            section {
-                padding: 3.5rem 5%;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .hero-buttons a {
-                text-align: center;
-                justify-content: center;
-            }
-
-            #about {
-                padding: 3.5rem 5%;
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .about-image img {
-                height: 500px;
-            }
-
-            .about-badge-img {
-                width: 85px;
-                height: 85px;
-            }
-
-            .about-badge-img .big {
-                font-size: 1.4rem;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-
-            .footer-inner {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .why-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .zones-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 1.7rem;
-            }
-
-            .filter-tabs {
-                gap: 0.5rem;
-            }
-
-            .filter-tab {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            #cart-sidebar {
-                width: 100%;
-                right: -100vw;
-            }
-
-            #cart-sidebar.open {
-                right: 0;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .why-inner {
-                gap: 2rem;
-            }
-
-            .why-cards {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            #hero {
-                padding-top: 70px;
-            }
-
-            nav {
-                padding: 0 4%;
-            }
-
-            .contact-form {
-                padding: 1.5rem;
-            }
-
-            footer {
-                padding: 2.5rem 5% 1.5rem;
-            }
-        }
-
-        /* ========== SCROLL REVEAL ========== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.7s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+        rel="stylesheet">
+    <link rel="stylesheet" href="Css/css_ind.css" >
 </head>
 
 <body>
@@ -1870,7 +63,7 @@
         <div class="hero-content">
             <div class="hero-badge">Materiaux de Construction</div>
             <h1 class="hero-title">Batissez vos rêves avec<br ><em>SN ASSIKI en partenariat avec KOUNAF</em></h1>
-            <p class="hero-subtitle">Ciment de qualité, fer à beton résistant — nous fournissons les materiaux pour des
+            <p class="hero-subtitle">Ciment de qualité, fer à béton résistant — nous fournissons les materiaux pour des
                 constructions solides et durables. Livraison rapide, prix imbattables.</p>
             <div class="hero-buttons">
                 <a href="#catalogue" class="btn-primary">Voir nos produits</a>
@@ -1899,7 +92,7 @@
             <span class="section-tag">Notre histoire</span>
             <h2 class="section-title">Une passion pour la<br><em>construction solide</em></h2>
             <p class="section-sub">SN ASSIKI, c'est l'histoire d'un jeune entrepreneur determiné à rendre accessibles
-                les materiaux de construction de qualité. Nous croyons que chaque famille mérite une maison solide,
+                les matériaux de construction de qualité. Nous croyons que chaque famille mérite une maison solide,
                 bâtir avec de bons materiaux.</p>
             <div class="about-features">
                 <div class="feature-item">
@@ -1924,7 +117,7 @@
                     </div>
                     <div class="feature-text">
                         <strong>Livraison rapide</strong>
-                        <span>Partout dans la region</span>
+                        <span>Partout dans la région</span>
                     </div>
                 </div>
                 <div class="feature-item">
@@ -1968,8 +161,8 @@
         <div class="filter-tabs">
             <button class="filter-tab active" onclick="filterProducts('tous', event)">Tous</button>
             <button class="filter-tab" onclick="filterProducts('ciment', event)">Ciment</button>
-            <button class="filter-tab" onclick="filterProducts('fer', event)">Fer à beton</button>
-            <button class="filter-tab" onclick="filterProducts('accessoires', event)">Accessoires</button>
+            <button class="filter-tab" onclick="filterProducts('fer', event)">Fer à béton</button>
+            <button class="filter-tab" onclick="filterProducts('accessoires', event)">Barre de fer</button>
         </div>
         <div class="products-grid" id="products-grid">
 
@@ -1980,15 +173,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Ciment NOCIBE</span>
+                    <span class="ph-label">NOCIBE Bénin</span>
                 </div>
                 <div class="product-info">
                     <div class="product-category">Ciment</div>
-                    <div class="product-name">Ciment CIM Bénin</div>
-                    <div class="product-desc">Sac de 50kg. Idéal pour dalles, fondations et beton arme.</div>
+                    <div class="product-name">Ciment NOCIBE</div>
+                    <div class="product-desc">Sac de 50kg. Idéal pour dalles, fondations et béton arme.</div>
                     <div class="product-footer">
-                        <div class="product-price">5 500 F<span> / sac</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Ciment Portland CEM I', 5500)">Ajouter</button>
+                        <div class="product-price">74 000 F<span> / tonne</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Ciment NOCIBE Bénin', 74 000)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2000,15 +193,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Ciment Lafarge</span>
+                    <span class="ph-label"> SCB Lafarge</span>
                 </div>
                 <div class="product-info">
                     <div class="product-category">Ciment</div>
-                    <div class="product-name">Ciment CEM II / 42.5</div>
+                    <div class="product-name">Ciment LAFARGE</div>
                     <div class="product-desc">Sac de 50kg. Ciment de haute resistance pour ouvrages importants.</div>
                     <div class="product-footer">
-                        <div class="product-price">6 200 F<span> / sac</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Ciment CEM II 42.5', 6200)">Ajouter</button>
+                        <div class="product-price">74 000 F<span> / tonne</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Ciment LAFARGE ', 74 000)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2020,15 +213,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Ciment Blanc 25kg</span>
+                    <span class="ph-label">BOUCLIER</span>
                 </div>
                 <div class="product-info">
                     <div class="product-category">Ciment</div>
-                    <div class="product-name">Ciment Blanc</div>
+                    <div class="product-name">Ciment Bouclier</div>
                     <div class="product-desc">Sac de 25kg. Pour travaux decoratifs, joints et finitions.</div>
                     <div class="product-footer">
-                        <div class="product-price">7 800 F<span> / sac</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Ciment Blanc 25kg', 7800)">Ajouter</button>
+                        <div class="product-price"> A venir<span> / tonne</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Ciment bouclier 25kg', 000)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2040,15 +233,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Fer HA 10 mm</span>
+                    <span class="ph-label">Fer FMB </span>
                 </div>
                 <div class="product-info">
-                    <div class="product-category">Fer a beton</div>
-                    <div class="product-name">Fer HA 10 mm</div>
+                    <div class="product-category">Fer à béton</div>
+                    <div class="product-name">Fer FMB MM5</div>
                     <div class="product-desc">Barre de 12m. Acier haute adherence, usage courant en construction.</div>
                     <div class="product-footer">
-                        <div class="product-price">3 200 F<span> / barre</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Fer HA 10mm', 3200)">Ajouter</button>
+                        <div class="product-price"> Prix <span> / barre</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Fer FMB MM5', 3200)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2060,15 +253,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Fer HA 12 mm</span>
+                    <span class="ph-label">Fer FMB </span>
                 </div>
                 <div class="product-info">
-                    <div class="product-category">Fer à beton</div>
-                    <div class="product-name">Fer HA 12 mm</div>
-                    <div class="product-desc">Barre de 12m. Resistance renforcee pour structures porteuses.</div>
+                    <div class="product-category">Fer à béton</div>
+                    <div class="product-name">Fer FMB MM6</div>
+                    <div class="product-desc">Barre de 6 ,Résistance renforcée pour structures porteuses.</div>
                     <div class="product-footer">
-                        <div class="product-price">4 500 F<span> / barre</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Fer HA 12mm', 4500)">Ajouter</button>
+                        <div class="product-price">Prix <span> / barre</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Fer FMB 12mm', 4500)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2080,15 +273,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Fer HA 16 mm</span>
+                    <span class="ph-label">Fer FMB</span>
                 </div>
                 <div class="product-info">
-                    <div class="product-category">Fer à beton</div>
-                    <div class="product-name">Fer HA 16 mm</div>
-                    <div class="product-desc">Barre de 12m. Pour grandes structures et immeubles.</div>
+                    <div class="product-category">Fer à béton</div>
+                    <div class="product-name">Fer FMB MM8</div>
+                    <div class="product-desc">Barre de 8. Pour grandes structures et immeubles.</div>
                     <div class="product-footer">
-                        <div class="product-price">7 500 F<span> / barre</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Fer HA 16mm', 7500)">Ajouter</button>
+                        <div class="product-price">Prix<span> / barre</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Fer FMB 16mm', 00)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2100,15 +293,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Fer </span>
+                    <span class="ph-label">Fer FMB</span>
                 </div>
                 <div class="product-info">
-                    <div class="product-category">Accessoires</div>
-                    <div class="product-name">Fil de fer </div>
-                    <div class="product-desc">       </div>
+                    <div class="product-category">Fer à béton</div>
+                    <div class="product-name">Fer FMB MM10 </div>
+                    <div class="product-desc">Barre de 10 </div>
                     <div class="product-footer">
-                        <div class="product-price">12 000 F<span> / panneau</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Treillis soude 2x3m', 12000)">Ajouter</button>
+                        <div class="product-price">Prix<span> / barre</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Fer FMB MM10', 10000)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2120,15 +313,15 @@
                         <circle cx="8.5" cy="8.5" r="1.5" />
                         <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span class="ph-label">Fil de ligature 5kg</span>
+                    <span class="ph-label">Fer FMB</span>
                 </div>
                 <div class="product-info">
-                    <div class="product-category">Accessoires</div>
-                    <div class="product-name">Fil </div>
-                    <div class="product-desc">Rouleau de 5kg. Acier recuit pour ligature du ferraillage.</div>
+                    <div class="product-category">Fer à béton</div>
+                    <div class="product-name">Fer FMB MM12 </div>
+                    <div class="product-desc">Barre de 12 </div>
                     <div class="product-footer">
-                        <div class="product-price">2 500 F<span> / rouleau</span></div>
-                        <button class="add-cart-btn" onclick="addToCart('Fil de ligature 5kg', 2500)">Ajouter</button>
+                        <div class="product-price">Prix<span> / barre</span></div>
+                        <button class="add-cart-btn" onclick="addToCart('Fer FMB MM12', 2500)">Ajouter</button>
                     </div>
                 </div>
             </div>
@@ -2143,7 +336,7 @@
                 <span class="section-tag">Nos atouts</span>
                 <h2 class="section-title">Pourquoi choisir<br><em>SN ASSIKI</em> ?</h2>
                 <p class="section-sub">Nous mettons tout en oeuvre pour que votre chantier se deroule sans accrocs.
-                    Qualite, rapidite et honnetete sont nos valeurs fondatrices.</p>
+                    Qualité, rapidité et honnetêté sont nos valeurs fondatrices.</p>
             </div>
             <div class="why-cards reveal">
                 <div class="why-card">
@@ -2195,7 +388,7 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg></div>
                     <h4>Confiance locale</h4>
-                    <p>Des centaines de clients satisfaits dans la region.</p>
+                    <p>Des centaines de clients satisfaits dans la région.</p>
                 </div>
             </div>
         </div>
@@ -2226,8 +419,8 @@
             </div>
             <div class="testimonial-card reveal">
                 <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">Prix imbattables et service serieux. Le fer HA 12mm que j'ai achete pour mes
-                    poteaux est de tres bonne qualite. Je suis client fidele maintenant.</p>
+                <p class="testimonial-text">Prix imbattables et service serieux. Le fer FMB MM12 que j'ai acheté pour mes
+                    poteaux est de très bonne qualité. Je suis client fidèle maintenant.</p>
                 <div class="testimonial-author">
                     <div class="author-avatar"><svg viewBox="0 0 24 24">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -2241,8 +434,9 @@
             </div>
             <div class="testimonial-card reveal">
                 <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">J'ai construit ma maison grace a SN ASSIKI. Le proprietaire est disponible,
-                    honnete et les materiaux etaient exactement ce qu'il m'avait promis.</p>
+                <p class="testimonial-text">En tant que vendeur de ciment en boutique, je m’approvisionne auprès de SN ASSIKI. C’est un partenaire sérieux, disponible et honnête.
+Les matériaux livrés sont toujours conformes, avec des livraisons fiables et ponctuelles, ce qui me permet de bien servir mes clients.
+SN ASSIKI est un fournisseur de confiance que je recommande aux commerçants et aux professionnels du bâtiment.</p>
                 <div class="testimonial-author">
                     <div class="author-avatar"><svg viewBox="0 0 24 24">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -2329,7 +523,7 @@
                         <div class="zone-header">
                             <div class="zone-name">Zone Est</div><span class="zone-badge badge-premium">Planifiée</span>
                         </div>
-                        <div class="zone-cities">Pobe, Ketou, Sakete, Ifangni et alentours</div>
+                        <div class="zone-cities">Pobe, Kétou, Sakete, Ifangni et alentours</div>
                         <div class="zone-info"><span class="zone-time">Livraison : 24 a 48h</span><span
                                 class="zone-price">Sur devis</span></div>
                     </div>
@@ -2338,8 +532,8 @@
                             <div class="zone-name">Zone Ouest</div><span
                                 class="zone-badge badge-standard">Standard</span>
                         </div>
-                        <div class="zone-cities">Savalou, Dassa, Glazoue, Bante</div>
-                        <div class="zone-info"><span class="zone-time">Livraison : 24 a 48h</span><span
+                        <div class="zone-cities">Savalou, Dassa, Glazoué, Bantè</div>
+                        <div class="zone-info"><span class="zone-time">Livraison : 24 à 48h</span><span
                                 class="zone-price">Sur devis</span></div>
                     </div>
                     <div class="zone-card">
@@ -2349,13 +543,12 @@
                         </div>
                         <div class="zone-cities">Vous ne trouvez pas votre zone ? Appelez-nous, on trouvera une
                             solution.</div>
-                        <div class="zone-info"><span class="zone-time">01 66 46 96 94</span><span
-                                class="zone-price">Negociable</span></div>
+                        <div class="zone-info"><span class="zone-time">01 66 46 96 94 / 01 40 82 56 06</span><span
+                                class="zone-price">Négociable</span></div>
                     </div>
                 </div>
                 <div class="zones-note">
-                    <strong>Bon a savoir :</strong> Les frais de livraison varient selon la distance et la quantite
-                    commandee. Contactez-nous pour un devis personnalise.
+                    <strong>Bon à savoir : </strong> Nous ne vendons pas en details et les frais de livraison varient selon la région. Contactez-nous pour un devis personnalisé.
                 </div>
             </div>
         </div>
@@ -2374,7 +567,7 @@
                                 <path
                                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z" />
                             </svg></div>
-                        <div class="contact-text"><strong>Télephone</strong><span>01 66 46 96 94</span></div>
+                        <div class="contact-text"><strong>Télephone</strong><span>01 66 46 96 94 / 01 40 82 56 06</span></div>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon"><svg viewBox="0 0 24 24">
@@ -2411,7 +604,7 @@
                         <input type="text" placeholder="Ex: Kofi Mensah">
                     </div>
                     <div class="form-group">
-                        <label>Telephone</label>
+                        <label>Télephone</label>
                         <input type="tel" placeholder="+229 01....">
                     </div>
                 </div>
@@ -2427,7 +620,7 @@
                 </div>
                 <div class="form-group">
                     <label>Produits souhaites</label>
-                    <input type="text" placeholder="Ex: 100 sacs de ciment + 50 barres de fer ">
+                    <input type="text" placeholder="Ex: 12 tonnes de ciment + 50 barres de fer ">
                 </div>
                 <div class="form-group">
                     <label>Message</label>
@@ -2443,8 +636,8 @@
         <div class="footer-inner">
             <div class="footer-brand">
                 <span class="nav-logo">SN <span>ASSIKI</span></span>
-                <p class="footer-desc">Votre partenaire de confiance pour les materiaux de construction. Ciment, fer a
-                    beton et accessoires disponibles pour tous vos chantiers.</p>
+                <p class="footer-desc">Votre partenaire de confiance pour les materiaux de construction. Ciment, fer à
+                    béton et accessoires disponibles pour tous vos chantiers.</p>
             </div>
             <div class="footer-col">
                 <h4>Navigation</h4>
@@ -2462,14 +655,14 @@
                 <ul>
                     <li><a href="#catalogue">Ciment NOCIBE</a></li>
                     <li><a href="#catalogue">Ciment Lafarge</a></li>
-                    <li><a href="#catalogue">Barre de Fer / 16</a></li>
-                    <li><a href="#catalogue">Treillis soude</a></li>
-                    <li><a href="#catalogue">Fil de ligature</a></li>
+                    <li><a href="#catalogue">Ciment BOUCLIER</a></li>
+                    <li><a href="#catalogue">Fer à béton </a></li>
+                    <li><a href="#catalogue">Barre de fer</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <span>2025 SN ASSIKI — Tous droits reserves</span>
+            <span>2026 SN ASSIKI — Tous droits reservés</span>
             <span>Fait avec passion pour les batisseurs</span>
         </div>
     </footer>
@@ -2481,7 +674,7 @@
     </button>
 
     <!-- WA FLOAT -->
-    <a class="wa-float" href="https://wa.me/0166469694?text=Bonjour%20SN%20ASSIKI%20!" target="_blank"
+    <a class="wa-float" href="https://wa.me/66469694?text=Bonjour%20SN%20ASSIKI%20!" target="_blank"
         title="Commander via WhatsApp">
         <svg viewBox="0 0 24 24">
             <path
@@ -2516,133 +709,7 @@
         </div>
     </div>
 
-    <script>
-        // SLIDESHOW
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        const dots = document.querySelectorAll('.slide-dot');
-
-        function goToSlide(n) {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            currentSlide = (n + slides.length) % slides.length;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
-        setInterval(() => goToSlide(currentSlide + 1), 4000);
-
-        // MENU MOBILE
-        function toggleMenu() {
-            document.getElementById('mobile-nav').classList.toggle('open');
-            document.getElementById('hamburger').classList.toggle('open');
-            document.body.style.overflow = document.getElementById('mobile-nav').classList.contains('open') ? 'hidden' : '';
-        }
-        function closeMenu() {
-            document.getElementById('mobile-nav').classList.remove('open');
-            document.getElementById('hamburger').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        window.addEventListener('resize', () => { if (window.innerWidth > 1024) closeMenu(); });
-
-        // PANIER
-        let cart = [];
-
-        function addToCart(name, price) {
-            const existing = cart.find(i => i.name === name);
-            if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
-            updateCartUI();
-            const btn = document.getElementById('cart-btn');
-            btn.style.transform = 'scale(1.3)';
-            setTimeout(() => btn.style.transform = '', 300);
-        }
-
-        function updateCartUI() {
-            const count = cart.reduce((a, b) => a + b.qty, 0);
-            const countEl = document.getElementById('cart-count');
-            countEl.textContent = count;
-            countEl.style.display = count > 0 ? 'flex' : 'none';
-            const itemsEl = document.getElementById('cart-items');
-            const footerEl = document.getElementById('cart-footer');
-
-            if (cart.length === 0) {
-                itemsEl.innerHTML = '<div class="cart-empty"><svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:#ccc;fill:none;stroke-width:1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Votre panier est vide.<br/>Ajoutez des produits !</p></div>';
-                footerEl.style.display = 'none';
-                return;
-            }
-            footerEl.style.display = 'block';
-            let html = '', total = 0;
-            cart.forEach((item, idx) => {
-                total += item.price * item.qty;
-                html += `<div class="cart-item">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-price">${(item.price * item.qty).toLocaleString('fr-FR')} F</div>
-        </div>
-        <div class="cart-qty-controls">
-          <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
-          <span>${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
-        </div>
-      </div>`;
-            });
-            itemsEl.innerHTML = html;
-            document.getElementById('cart-total-price').textContent = total.toLocaleString('fr-FR') + ' F';
-        }
-
-        function changeQty(idx, delta) {
-            cart[idx].qty += delta;
-            if (cart[idx].qty <= 0) cart.splice(idx, 1);
-            updateCartUI();
-        }
-
-        function toggleCart() {
-            document.getElementById('cart-sidebar').classList.toggle('open');
-            document.getElementById('cart-overlay').classList.toggle('open');
-        }
-
-        function orderViaWhatsApp() {
-            if (cart.length === 0) return;
-            let msg = 'Bonjour SN ASSIKI ! Je souhaite commander :%0A%0A';
-            let total = 0;
-            cart.forEach(item => {
-                msg += `- ${item.qty}x ${item.name} : ${(item.price * item.qty).toLocaleString('fr-FR')} F%0A`;
-                total += item.price * item.qty;
-            });
-            msg += `%0ATotal estime : ${total.toLocaleString('fr-FR')} F%0A%0AMerci de confirmer la disponibilite et la livraison.`;
-            window.open('https://wa.me/0166469694?text=' + msg, '_blank');
-        }
-
-        function sendWhatsAppQuote() {
-            const inputs = document.querySelectorAll('.contact-form input, .contact-form select, .contact-form textarea');
-            const nom = inputs[0].value || 'Non precise';
-            const tel = inputs[1].value || 'Non precise';
-            const projet = inputs[2].value || 'Non precise';
-            const produits = inputs[3].value || 'Non precise';
-            const message = inputs[4].value || '';
-            const msg = `Bonjour SN ASSIKI ! Demande de devis :%0A%0ANom : ${nom}%0ATel : ${tel}%0AProjet : ${projet}%0ACommande : ${produits}%0A%0A${message}`;
-            window.open('https://wa.me/0166469694?text=' + msg, '_blank');
-        }
-
-        // FILTRES
-        function filterProducts(cat, event) {
-            document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
-            if (event && event.target) event.target.classList.add('active');
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.classList.toggle('hidden', cat !== 'tous' && card.dataset.category !== cat);
-            });
-        }
-
-        // SCROLL REVEAL
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // NAV SCROLL
-        window.addEventListener('scroll', () => {
-            document.getElementById('main-nav').style.height = window.scrollY > 50 ? '58px' : '70px';
-        });
-    </script>
+<script src="Js/JS_script.js"></script>
 </body>
 
 </html>
