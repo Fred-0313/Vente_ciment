@@ -315,12 +315,13 @@
 
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-size: clamp(2.5rem, 4vw, 3rem);
             font-weight: 900;
             color: var(--white);
             line-height: 1.1;
             margin-bottom: 1.5rem;
             animation: fadeUp 0.9s 0.3s ease both;
+            margin-left: 0px;
         }
 
         .hero-title em {
