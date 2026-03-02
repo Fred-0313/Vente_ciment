@@ -206,7 +206,7 @@
        Exemple : url('images/photo1.jpg')
     ================================================== */
         .hero-slide:nth-child(1) {
-            background-image: url('../img/narc5.jpeg');
+            background-image: url('../img/im02.jpg');
         }
 
         .hero-slide:nth-child(2) {
@@ -222,7 +222,8 @@
         }
 
         .hero-slide:nth-child(5) {
-            background-image: url('../img/Narc3.jpeg');
+            background-image: url('../img/im03.jpg');
+            
         }
 
         .hero-overlay {
